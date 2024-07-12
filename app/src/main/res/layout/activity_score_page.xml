@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3554E0"
+    tools:context=".ScorePage">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#A60909"
+        android:fontFamily="@font/alegreya_sc_black_italic"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/congratulations"
+        android:textColor="#76D30B"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#55AF43"
+        android:fontFamily="@font/abril_fatface"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/your_score_is"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/showScore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#8E3B07"
+        android:fontFamily="cursive"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/score_"
+        android:textColor="#39E239"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/backToHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#009688"
+        android:text="@string/go_back_to_home"
+        android:textColor="#FFEB3B"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showScore"
+        app:strokeColor="#62D312"
+        app:strokeWidth="5dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
