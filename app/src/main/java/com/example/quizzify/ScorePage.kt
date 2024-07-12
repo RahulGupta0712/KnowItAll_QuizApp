@@ -1,18 +1,14 @@
 package com.example.quizzify
 
 import android.annotation.SuppressLint
-import android.app.FragmentManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.widget.Button
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.quizzify.databinding.ActivityScorePageBinding
-import com.shashank.sony.fancytoastlib.FancyToast
 import render.animations.Flip
 import render.animations.Render
 import render.animations.Zoom

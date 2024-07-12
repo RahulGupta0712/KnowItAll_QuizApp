@@ -20,10 +20,10 @@ import render.animations.Zoom
 
 
 @Suppress("DEPRECATION")
-class QuestionsFragment(var questionId: Int, var score: Int) : Fragment() {
-
+class QuestionsFragment(private var questionId: Int,private var score: Int) : Fragment() {
     private lateinit var binding: FragmentQuestionsBinding
     private var click = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -156,10 +156,4 @@ class QuestionsFragment(var questionId: Int, var score: Int) : Fragment() {
             }
         }
     }
-
-    companion object {
-
-    }
-
-
 }

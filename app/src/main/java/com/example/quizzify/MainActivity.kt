@@ -1,15 +1,13 @@
 package com.example.quizzify
 
-import android.app.FragmentManager
-import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.FragmentManager
 import com.shashank.sony.fancytoastlib.FancyToast
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         val beginButton = findViewById<Button>(R.id.beginQuizButton)
         beginButton.setOnClickListener {
+            // quiz starts on clicking begin button, fragment starts with starting question as 0 and score as 0
             val trans = supportFragmentManager.beginTransaction()
             trans.replace(R.id.frame, QuestionsFragment(0, 0))
             trans.addToBackStack(null)
@@ -32,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val rulesButton = findViewById<Button>(R.id.rulesButton)
-        rulesButton.setOnClickListener{
+        rulesButton.setOnClickListener {
+            // rules fragment opens on clicking rules button
             val trans = supportFragmentManager.beginTransaction()
             trans.replace(R.id.frame2, RulesFragment())
             trans.addToBackStack(null)
@@ -41,15 +41,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        // managing the back press function
         val fragmentManager = supportFragmentManager
         val isEmpty = (fragmentManager.backStackEntryCount == 0)
-        if(isEmpty){
-            finishAffinity()
+        if (isEmpty) {
+            // if quiz has not started so exit the app
+            finishAffinity()    // finishes this activity and its children activity
             return true
-        }
-        else {
-            FancyToast.makeText(this, "Quiz aborted", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show()
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        } else {
+            // quiz has started and user wants to exit
+            FancyToast.makeText(
+                this,
+                "Quiz aborted",
+                FancyToast.LENGTH_LONG,
+                FancyToast.INFO,
+                false
+            ).show()
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE) // clear all fragments
             return true
         }
     }

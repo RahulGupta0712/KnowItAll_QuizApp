@@ -32,7 +32,8 @@
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        tools:ignore="VisualLintOverlap" />
 
     <TextView
         android:id="@+id/textView2"
@@ -47,7 +48,8 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="VisualLintOverlap" />
 
     <Button
         android:id="@+id/rulesButton"
@@ -55,14 +57,15 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#FF5722"
         android:fontFamily="casual"
-        android:text="Rules"
+        android:text="@string/rules"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/beginQuizButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:strokeColor="#009688"
-        app:strokeWidth="2dp" />
+        app:strokeWidth="2dp"
+        tools:ignore="VisualLintOverlap" />
 
     <Button
         android:id="@+id/beginQuizButton"
@@ -80,7 +83,8 @@
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:strokeColor="#3F51B5"
-        app:strokeWidth="2dp" />
+        app:strokeWidth="2dp"
+        tools:ignore="VisualLintOverlap" />
 
     <FrameLayout
         android:id="@+id/frame"
