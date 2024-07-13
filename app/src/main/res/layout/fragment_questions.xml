@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
         android:background="#0CB697"
         android:fontFamily="@font/abril_fatface"
@@ -23,14 +23,14 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <Button
         android:id="@+id/option3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
         android:backgroundTint="#142FA9"
         android:fontFamily="@font/abril_fatface"
@@ -67,11 +67,12 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:contentDescription="@string/logo"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/app_logo" />
@@ -85,18 +86,20 @@
 
     <Button
         android:id="@+id/nextButton"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="80dp"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:backgroundTint="#FB7A24D0"
         android:fontFamily="@font/abril_fatface"
         android:text="@string/next_question"
         android:textColor="#E6E782"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/option3"
+        app:strokeColor="#4CAF50"
+        app:strokeWidth="2dp" />
 
     <Button
         android:id="@+id/option2"
@@ -123,7 +126,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="10dp"
         android:backgroundTint="#142FA9"
         android:fontFamily="@font/abril_fatface"
@@ -139,5 +142,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question"
         tools:ignore="VisualLintButtonSize" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#FFC107"
+        app:cardBackgroundColor="#FFC107"
+        app:cardCornerRadius="100dp"
+        app:cardElevation="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+
+        <TextView
+            android:id="@+id/showTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFC107"
+            android:fontFamily="@font/alegreya_sc_black_italic"
+            android:gravity="center"
+            android:minWidth="100dp"
+
+            android:padding="20dp"
+            android:text="@string/time"
+            android:textColor="#3F51B5"
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="278dp"
+            tools:layout_editor_absoluteY="108dp" />
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

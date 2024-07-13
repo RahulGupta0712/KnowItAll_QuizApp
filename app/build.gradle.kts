@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation ("com.github.gayanvoice:android-animations-kotlin:1.0.1") // animation on view
+    implementation("com.github.f0ris.sweetalert:library:1.5.6") // alert dialog
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)

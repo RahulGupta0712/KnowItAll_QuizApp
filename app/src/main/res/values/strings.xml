@@ -25,4 +25,7 @@
     <string name="submit_quiz">Submit Quiz</string>
     <string name="_3_you_can_t_go_back_to_previous_question_so_mark_answers_carefully">3. You can\'t go back to previous question, so mark answers carefully !!!</string>
     <string name="rules">RULES</string>
+    <string name="time">Time</string>
+    <string name="time_up">Time Up !!!</string>
+    <string name="_4_you_only_have_30_seconds_for_each_question_so_be_quick">4. You only have 30 seconds for each question, so be quick !</string>
 </resources>
