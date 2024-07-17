@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.shashank.sony.fancytoastlib.FancyToast
 
 class MainActivity : AppCompatActivity() {
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             // rules fragment opens on clicking rules button
             val trans = supportFragmentManager.beginTransaction()
             trans.replace(R.id.frame2, RulesFragment())
-            trans.addToBackStack(null)
+            trans.addToBackStack("rules")
             trans.commit()
         }
     }
@@ -43,21 +44,34 @@ class MainActivity : AppCompatActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         // managing the back press function
         val fragmentManager = supportFragmentManager
-        val isEmpty = (fragmentManager.backStackEntryCount == 0)
-        if (isEmpty) {
+        val fragmentCount = fragmentManager.backStackEntryCount
+        if (fragmentCount == 0) {
             // if quiz has not started so exit the app
             finishAffinity()    // finishes this activity and its children activity
             return true
         } else {
-            // quiz has started and user wants to exit
-            FancyToast.makeText(
-                this,
-                "Quiz aborted",
-                FancyToast.LENGTH_LONG,
-                FancyToast.INFO,
-                false
-            ).show()
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE) // clear all fragments
+            val name = fragmentManager.getBackStackEntryAt(fragmentCount-1).name
+
+            if(name == "rules"){
+                fragmentManager.popBackStack()
+            }
+            else{
+//                 quiz has started and user might want to quit
+                // show dialog
+                SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Quit the Quiz ?")
+                    .setContentText("Click Yes to quit the quiz")
+                    .setCancelButton("Yes"){
+                        FancyToast.makeText(this,"Quiz aborted", FancyToast.LENGTH_LONG,FancyToast.INFO,false).show()
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE) // clear all fragments
+                        it.dismiss()
+                    }
+                    .setConfirmButton("No"){
+                        it.dismiss()
+                    }
+                    .show()
+
+            }
             return true
         }
     }

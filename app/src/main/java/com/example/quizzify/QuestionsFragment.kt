@@ -3,6 +3,8 @@ package com.example.quizzify
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +25,7 @@ import render.animations.Zoom
 class QuestionsFragment(private var questionId: Int,private var score: Int) : Fragment() {
     private lateinit var binding: FragmentQuestionsBinding
     private var click = 0
+    private lateinit var timer : Timer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +67,9 @@ class QuestionsFragment(private var questionId: Int,private var score: Int) : Fr
         render.setDuration(700)
         render.start()
 
+        render.setAnimation(Fade().In(binding.cardView))
+        render.start()
+
         val wholeData = DataQnA().getData()
         val size = wholeData.size
         val data = wholeData[questionId]
@@ -74,6 +80,8 @@ class QuestionsFragment(private var questionId: Int,private var score: Int) : Fr
         binding.option3.text = "C : ${data.optionC}"
         binding.option4.text = "D : ${data.optionD}"
 
+
+        // making all options height equal
         val heights = ArrayList<Int>()
         var maxHeight: Int
         val viewTreeObserver = binding.root.viewTreeObserver
@@ -97,45 +105,55 @@ class QuestionsFragment(private var questionId: Int,private var score: Int) : Fr
 
         val correctAns = data.correctOption
 
+        // setting timer
+        val totalTime:Long = 31 // in seconds
+        val updateInterval:Long = 1000 // in ms
+        timer = Timer(totalTime*1000, updateInterval, binding)
+
+        timer.start()
+
         if (questionId == size - 1) {
             binding.nextButton.text = getString(R.string.submit_quiz)
         }
 
+        val selectedColor = resources.getColorStateList(R.color.tint_button)
+        val unselectedColor = resources.getColorStateList(R.color.unselected_color)
         binding.option1.setOnClickListener {
-            binding.option1.setTextColor(resources.getColor(R.color.yellow))
-            binding.option2.setTextColor(resources.getColor(R.color.white))
-            binding.option3.setTextColor(resources.getColor(R.color.white))
-            binding.option4.setTextColor(resources.getColor(R.color.white))
+            binding.option1.setBackgroundTintList(selectedColor)
+            binding.option2.setBackgroundTintList(unselectedColor)
+            binding.option3.setBackgroundTintList(unselectedColor)
+            binding.option4.setBackgroundTintList(unselectedColor)
             click = 1
         }
 
         binding.option2.setOnClickListener {
-            binding.option1.setTextColor(resources.getColor(R.color.white))
-            binding.option2.setTextColor(resources.getColor(R.color.yellow))
-            binding.option3.setTextColor(resources.getColor(R.color.white))
-            binding.option4.setTextColor(resources.getColor(R.color.white))
+            binding.option1.setBackgroundTintList(unselectedColor)
+            binding.option2.setBackgroundTintList(selectedColor)
+            binding.option3.setBackgroundTintList(unselectedColor)
+            binding.option4.setBackgroundTintList(unselectedColor)
             click = 2
         }
 
         binding.option3.setOnClickListener {
-            binding.option1.setTextColor(resources.getColor(R.color.white))
-            binding.option2.setTextColor(resources.getColor(R.color.white))
-            binding.option3.setTextColor(resources.getColor(R.color.yellow))
-            binding.option4.setTextColor(resources.getColor(R.color.white))
+            binding.option1.setBackgroundTintList(unselectedColor)
+            binding.option2.setBackgroundTintList(unselectedColor)
+            binding.option3.setBackgroundTintList(selectedColor)
+            binding.option4.setBackgroundTintList(unselectedColor)
             click = 3
         }
 
         binding.option4.setOnClickListener {
-            binding.option1.setTextColor(resources.getColor(R.color.white))
-            binding.option2.setTextColor(resources.getColor(R.color.white))
-            binding.option3.setTextColor(resources.getColor(R.color.white))
-            binding.option4.setTextColor(resources.getColor(R.color.yellow))
+            binding.option1.setBackgroundTintList(unselectedColor)
+            binding.option2.setBackgroundTintList(unselectedColor)
+            binding.option3.setBackgroundTintList(unselectedColor)
+            binding.option4.setBackgroundTintList(selectedColor)
             click = 4
         }
 
+        val activity = context as AppCompatActivity
         binding.nextButton.setOnClickListener {
             when (click) {
-                0 -> FancyToast.makeText(context as AppCompatActivity, "Choose any option first", FancyToast.LENGTH_LONG, FancyToast.DEFAULT,false).show()
+                0 -> FancyToast.makeText(activity, "Choose any option first", FancyToast.LENGTH_LONG, FancyToast.DEFAULT,false).show()
                 1 -> if (correctAns == data.optionA) score++
                 2 -> if (correctAns == data.optionB) score++
                 3 -> if (correctAns == data.optionC) score++
@@ -143,17 +161,39 @@ class QuestionsFragment(private var questionId: Int,private var score: Int) : Fr
             }
 
             if (click != 0) {
-                if (questionId == size - 1) {
-                    val intent = Intent(requireActivity(), ScorePage::class.java)
-                    intent.putExtra("score", score)
-                    startActivity(intent)
-                } else {
-                    val trans = requireActivity().supportFragmentManager.beginTransaction()
-                    trans.replace(R.id.frame, QuestionsFragment(questionId + 1, score))
-                    trans.addToBackStack(null)
-                    trans.commit()
-                }
+                timer.cancel()
+
+                val correct = resources.getColorStateList(R.color.correct_ans)
+                val incorrect = resources.getColorStateList(R.color.incorrect_ans)
+                binding.option1.setBackgroundTintList(incorrect)
+                binding.option2.setBackgroundTintList(incorrect)
+                binding.option3.setBackgroundTintList(incorrect)
+                binding.option4.setBackgroundTintList(incorrect)
+                if (correctAns == data.optionA) binding.option1.setBackgroundTintList(correct)
+                if (correctAns == data.optionB) binding.option2.setBackgroundTintList(correct)
+                if (correctAns == data.optionC) binding.option3.setBackgroundTintList(correct)
+                if (correctAns == data.optionD) binding.option4.setBackgroundTintList(correct)
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    if (questionId == size - 1) {
+                        val intent = Intent(activity, ScorePage::class.java)
+                        intent.putExtra("score", score)
+                        startActivity(intent)
+                    } else {
+                        val trans = activity.supportFragmentManager.beginTransaction()
+                        trans.replace(R.id.frame, QuestionsFragment(questionId + 1, score))
+                        trans.addToBackStack(null)
+                        trans.commit()
+                    }
+                }, 100)
+
+
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer.cancel()  // very very important to add this, as in main activity we have set custom back click listener, so there it may clear whole backstack, but there might be a chance that the timer may be running, so it gives an IllegalState Error, so that's why when this fragment is removed from back stack , we also close the timer associated.
     }
 }
