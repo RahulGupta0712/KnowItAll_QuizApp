@@ -14,7 +14,7 @@ class Timer(totalTime:Long,interval:Long,private var binding : FragmentQuestions
     }
 
     override fun onFinish() {
-        binding.showTime.text = "Time Up !!!"
+        binding.showTime.setText(R.string.time_up)
         val render = Render(AppCompatActivity())
         render.setAnimation(Attention().Wobble(binding.cardView))
         render.start()

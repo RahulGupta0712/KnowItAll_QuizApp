@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.quizzify.databinding.FragmentQuestionsBinding
 import com.shashank.sony.fancytoastlib.FancyToast
 
@@ -21,11 +22,10 @@ import render.animations.Render
 import render.animations.Zoom
 
 
-@Suppress("DEPRECATION")
-class QuestionsFragment(private var questionId: Int,private var score: Int) : Fragment() {
+class QuestionsFragment(private var questionId: Int, private var score: Int) : Fragment() {
     private lateinit var binding: FragmentQuestionsBinding
     private var click = 0
-    private lateinit var timer : Timer
+    private lateinit var timer: Timer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,9 +106,9 @@ class QuestionsFragment(private var questionId: Int,private var score: Int) : Fr
         val correctAns = data.correctOption
 
         // setting timer
-        val totalTime:Long = 31 // in seconds
-        val updateInterval:Long = 1000 // in ms
-        timer = Timer(totalTime*1000, updateInterval, binding)
+        val totalTime: Long = 31 // in seconds
+        val updateInterval: Long = 1000 // in ms
+        timer = Timer(totalTime * 1000, updateInterval, binding)
 
         timer.start()
 
@@ -116,8 +116,8 @@ class QuestionsFragment(private var questionId: Int,private var score: Int) : Fr
             binding.nextButton.text = getString(R.string.submit_quiz)
         }
 
-        val selectedColor = resources.getColorStateList(R.color.tint_button)
-        val unselectedColor = resources.getColorStateList(R.color.unselected_color)
+        val selectedColor = ContextCompat.getColorStateList(context as AppCompatActivity, R.color.tint_button)
+        val unselectedColor = ContextCompat.getColorStateList(context as AppCompatActivity, R.color.unselected_color)
         binding.option1.setOnClickListener {
             binding.option1.setBackgroundTintList(selectedColor)
             binding.option2.setBackgroundTintList(unselectedColor)
@@ -151,24 +151,54 @@ class QuestionsFragment(private var questionId: Int,private var score: Int) : Fr
         }
 
         val activity = context as AppCompatActivity
+
+        val correct = ContextCompat.getColorStateList(context as AppCompatActivity, R.color.correct_ans)
+        val incorrect = ContextCompat.getColorStateList(context as AppCompatActivity, R.color.incorrect_ans)
+
         binding.nextButton.setOnClickListener {
+
             when (click) {
-                0 -> FancyToast.makeText(activity, "Choose any option first", FancyToast.LENGTH_LONG, FancyToast.DEFAULT,false).show()
-                1 -> if (correctAns == data.optionA) score++
-                2 -> if (correctAns == data.optionB) score++
-                3 -> if (correctAns == data.optionC) score++
-                4 -> if (correctAns == data.optionD) score++
+                0 -> FancyToast.makeText(
+                    activity,
+                    "Choose any option first",
+                    FancyToast.LENGTH_LONG,
+                    FancyToast.DEFAULT,
+                    false
+                ).show()
+
+                1 -> if (correctAns == data.optionA) {
+                    binding.option1.setBackgroundTintList(correct)  // if correct then change to green color
+                    score++
+                } else {
+                    binding.option1.setBackgroundTintList(incorrect)    // else red color
+                }
+
+                2 -> if (correctAns == data.optionB) {
+                    binding.option2.setBackgroundTintList(correct)
+                    score++
+                } else {
+                    binding.option2.setBackgroundTintList(incorrect)
+                }
+
+                3 -> if (correctAns == data.optionC) {
+                    binding.option3.setBackgroundTintList(correct)
+                    score++
+                } else {
+                    binding.option3.setBackgroundTintList(incorrect)
+                }
+
+                4 -> if (correctAns == data.optionD) {
+                    binding.option4.setBackgroundTintList(correct)
+                    score++
+                } else {
+                    binding.option4.setBackgroundTintList(incorrect)
+                }
             }
 
             if (click != 0) {
                 timer.cancel()
 
-                val correct = resources.getColorStateList(R.color.correct_ans)
-                val incorrect = resources.getColorStateList(R.color.incorrect_ans)
-                binding.option1.setBackgroundTintList(incorrect)
-                binding.option2.setBackgroundTintList(incorrect)
-                binding.option3.setBackgroundTintList(incorrect)
-                binding.option4.setBackgroundTintList(incorrect)
+                // displaying correct answer
                 if (correctAns == data.optionA) binding.option1.setBackgroundTintList(correct)
                 if (correctAns == data.optionB) binding.option2.setBackgroundTintList(correct)
                 if (correctAns == data.optionC) binding.option3.setBackgroundTintList(correct)
